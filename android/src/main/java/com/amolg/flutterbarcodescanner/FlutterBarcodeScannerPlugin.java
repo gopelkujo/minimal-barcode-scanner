@@ -94,9 +94,11 @@ public class FlutterBarcodeScannerPlugin implements MethodCallHandler, ActivityR
             pendingResult = result;
 
             if (call.method.equals("scanBarcode")) {
+                // Check if the required parameter is passed.
                 if (!(call.arguments instanceof Map)) {
                     throw new IllegalArgumentException("Plugin not passing a map as parameter: " + call.arguments);
                 }
+                
                 arguments = (Map<String, Object>) call.arguments;
                 lineColor = (String) arguments.get("lineColor");
                 isShowFlashIcon = (boolean) arguments.get("isShowFlashIcon");
