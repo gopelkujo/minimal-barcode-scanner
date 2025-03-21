@@ -21,8 +21,11 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> startBarcodeScanStream() async {
     MinimalBarcodeScanner.getBarcodeStreamReceiver(
-            '#ff6666', 'Cancel', true, ScanMode.BARCODE)!
-        .listen((barcode) => print(barcode));
+      '#ff6666',
+      'Cancel',
+      true,
+      ScanMode.BARCODE,
+    )?.listen((barcode) => print(barcode));
   }
 
   Future<void> scanQR() async {
@@ -30,7 +33,11 @@ class _MyAppState extends State<MyApp> {
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       barcodeScanRes = await MinimalBarcodeScanner.scanBarcode(
-          '#ff6666', 'Cancel', true, ScanMode.QR);
+        '#ff6666',
+        'Cancel',
+        true,
+        ScanMode.QR,
+      );
       print(barcodeScanRes);
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
@@ -52,7 +59,11 @@ class _MyAppState extends State<MyApp> {
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       barcodeScanRes = await MinimalBarcodeScanner.scanBarcode(
-          '#ff6666', 'Cancel', true, ScanMode.BARCODE);
+        '#ff6666',
+        'Cancel',
+        true,
+        ScanMode.BARCODE,
+      );
       print(barcodeScanRes);
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
