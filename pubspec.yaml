@@ -1,7 +1,10 @@
-name: flutter_barcode_scanner
+# This package originally forked from:
+# https://github.com/AmolGangadhare/minimal_barcode_scanner
+
+name: minimal_barcode_scanner
 description: A plugin for barcode scanning support on Android and iOS. Supports barcodes, QR codes, etc.
-version: 2.0.0
-homepage: https://github.com/AmolGangadhare/flutter_barcode_scanner
+version: 0.0.1
+homepage: https://github.com/gopelkujo/minimal-barcode-scanner
 
 environment:
   sdk: '>=2.12.0 <3.0.0'

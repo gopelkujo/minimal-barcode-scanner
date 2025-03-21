@@ -9,9 +9,9 @@ enum ScanMode { QR, BARCODE, DEFAULT }
 ///
 /// This class is an interface between the native Android and iOS classes and a
 /// Flutter project.
-class FlutterBarcodeScanner {
+class MinimalBarcodeScanner {
   static const MethodChannel _channel =
-      MethodChannel('flutter_barcode_scanner');
+      MethodChannel('minimal_barcode_scanner');
 
   static const EventChannel _eventChannel =
       EventChannel('flutter_barcode_scanner_receiver');
