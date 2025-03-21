@@ -10,11 +10,13 @@ enum ScanMode { QR, BARCODE, DEFAULT }
 /// This class is an interface between the native Android and iOS classes and a
 /// Flutter project.
 class MinimalBarcodeScanner {
-  static const MethodChannel _channel =
-      MethodChannel('minimal_barcode_scanner');
+  static const String _methodChannelKey = 'minimal_barcode_scanner';
 
-  static const EventChannel _eventChannel =
-      EventChannel('flutter_barcode_scanner_receiver');
+  static const String _eventChannelKey = 'minimal_barcode_scanner_receiver';
+
+  static const MethodChannel _channel = MethodChannel(_methodChannelKey);
+
+  static const EventChannel _eventChannel = EventChannel(_eventChannelKey);
 
   static Stream? _onBarcodeReceiver;
 
@@ -23,8 +25,12 @@ class MinimalBarcodeScanner {
   /// Shows a scan line with [lineColor] over a scan window. A flash icon is
   /// displayed if [isShowFlashIcon] is true. The text of the cancel button can
   /// be customized with the [cancelButtonText] string.
-  static Future<String> scanBarcode(String lineColor, String cancelButtonText,
-      bool isShowFlashIcon, ScanMode scanMode) async {
+  static Future<String> scanBarcode(
+    String lineColor,
+    String cancelButtonText,
+    bool isShowFlashIcon,
+    ScanMode scanMode,
+  ) async {
     if (cancelButtonText.isEmpty) {
       cancelButtonText = 'Cancel';
     }
@@ -51,8 +57,12 @@ class MinimalBarcodeScanner {
   /// displayed if [isShowFlashIcon] is true. The text of the cancel button can
   /// be customized with the [cancelButtonText] string. Returns a stream of
   /// detected barcode strings.
-  static Stream? getBarcodeStreamReceiver(String lineColor,
-      String cancelButtonText, bool isShowFlashIcon, ScanMode scanMode) {
+  static Stream? getBarcodeStreamReceiver(
+    String lineColor,
+    String cancelButtonText,
+    bool isShowFlashIcon,
+    ScanMode scanMode,
+  ) {
     if (cancelButtonText.isEmpty) {
       cancelButtonText = 'Cancel';
     }
