@@ -1,6 +1,6 @@
-# minimal_barcode_scanner
+# Minimal Barcode Scanner
 
-A plugin for Flutter apps that adds barcode scanning support on both Android and iOS.
+A plugin for Flutter apps that adds barcode scanning support on both Android and iOS. Forked from [flutter_barcode_scanner](https://github.com/AmolGangadhare/flutter_barcode_scanner)
 
 [![pub package](https://img.shields.io/pub/v/minimal_barcode_scanner.svg)](https://pub.dartlang.org/packages/minimal_barcode_scanner)
 
@@ -76,7 +76,7 @@ import 'package:minimal_barcode_scanner/minimal_barcode_scanner.dart';
 2. Then use the `scanBarcode` method to access barcode scanning.
     
 ```
-String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+String barcodeScanRes = await MinimalBarcodeScanner.scanBarcode(
                                                     COLOR_CODE, 
                                                     CANCEL_BUTTON_TEXT, 
                                                     isShowFlashIcon, 
@@ -97,13 +97,13 @@ Here in `scanBarcode`,
  NOTE: Currently, `scanMode` is just to show the graphics overlay for barcode and QR. Any of this mode selected will scan both QR and barcode. 
 
 ### Continuous scan
-* If you need to scan barcodes continuously without closing camera use `FlutterBarcodeScanner.getBarcodeStreamReceiver`
-params will be same like `FlutterBarcodeScanner.scanBarcode`
+* If you need to scan barcodes continuously without closing camera use `MinimalBarcodeScanner.getBarcodeStreamReceiver`
+params will be same like `MinimalBarcodeScanner.scanBarcode`
 e.g. 
 
 
 ```
-FlutterBarcodeScanner.getBarcodeStreamReceiver("#ff6666", "Cancel", false, ScanMode.DEFAULT)
+MinimalBarcodeScanner.getBarcodeStreamReceiver("#ff6666", "Cancel", false, ScanMode.DEFAULT)
          .listen((barcode) { 
          /// barcode to be used
          });
