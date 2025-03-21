@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:minimal_barcode_scanner/minimal_barcode_scanner.dart';
@@ -12,13 +11,18 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _scanBarcode = 'Unknown';
+  String _barcodeResult = 'Unknown';
 
   @override
   void initState() {
     super.initState();
   }
 
+  /// Listen to the scanned barcode.
+  ///
+  /// This function will continuously scan the captured barcode. So this allows
+  /// you to get multiple barcodes in sequence. Add the callback to `.listen` as
+  /// [getBarcodeStreamReceiver] type is `Stream`.
   Future<void> startBarcodeScanStream() async {
     MinimalBarcodeScanner.getBarcodeStreamReceiver(
       '#ff6666',
@@ -28,81 +32,96 @@ class _MyAppState extends State<MyApp> {
     )?.listen((barcode) => print(barcode));
   }
 
+  /// Scan 2 Dimenional QR-Code. [scanBarcode] scans for QR-Codes marked with
+  /// the parameter [scanMode] value being [ScanMode.QR].
+  ///
+  /// Only one time scan. The scanner will exit and return the value of the
+  /// barcode immediately after the scanner captured the first barcode.
   Future<void> scanQR() async {
-    String barcodeScanRes;
+    String scanned;
+
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      barcodeScanRes = await MinimalBarcodeScanner.scanBarcode(
+      scanned = await MinimalBarcodeScanner.scanBarcode(
         '#ff6666',
         'Cancel',
         true,
         ScanMode.QR,
       );
-      print(barcodeScanRes);
+      print(scanned);
     } on PlatformException {
-      barcodeScanRes = 'Failed to get platform version.';
+      scanned = 'Failed to get platform version.';
     }
 
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
+    // Prevent the widget tree rebuild (setState) when the widget tree is not
+    // mounted anymore.
     if (!mounted) return;
 
-    setState(() {
-      _scanBarcode = barcodeScanRes;
-    });
+    setState(() => _barcodeResult = scanned);
   }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
+  /// Scan Barcode. [scanBarcode] scans for Barcides marked with
+  /// the parameter [scanMode] value being [ScanMode.BARCODE].
+  ///
+  /// Only one time scan. The scanner will exit and return the value of the
+  /// barcode immediately after the scanner captured the first barcode.
   Future<void> scanBarcodeNormal() async {
-    String barcodeScanRes;
+    String scanned;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      barcodeScanRes = await MinimalBarcodeScanner.scanBarcode(
+      scanned = await MinimalBarcodeScanner.scanBarcode(
         '#ff6666',
         'Cancel',
         true,
         ScanMode.BARCODE,
       );
-      print(barcodeScanRes);
+      print(scanned);
     } on PlatformException {
-      barcodeScanRes = 'Failed to get platform version.';
+      scanned = 'Failed to get platform version.';
     }
 
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
+    // Prevent the widget tree rebuild (setState) when the widget tree is not
+    // mounted anymore.
     if (!mounted) return;
 
-    setState(() {
-      _scanBarcode = barcodeScanRes;
-    });
+    setState(() => _barcodeResult = scanned);
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: Scaffold(
-            appBar: AppBar(title: const Text('Barcode scan')),
-            body: Builder(builder: (BuildContext context) {
-              return Container(
-                  alignment: Alignment.center,
-                  child: Flex(
-                      direction: Axis.vertical,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        ElevatedButton(
-                            onPressed: () => scanBarcodeNormal(),
-                            child: Text('Start barcode scan')),
-                        ElevatedButton(
-                            onPressed: () => scanQR(),
-                            child: Text('Start QR scan')),
-                        ElevatedButton(
-                            onPressed: () => startBarcodeScanStream(),
-                            child: Text('Start barcode scan stream')),
-                        Text('Scan result : $_scanBarcode\n',
-                            style: TextStyle(fontSize: 20))
-                      ]));
-            })));
+      home: Scaffold(
+        appBar: AppBar(title: const Text('Barcode scan')),
+        body: Builder(
+          builder: (BuildContext context) {
+            return Container(
+              alignment: Alignment.center,
+              child: Flex(
+                direction: Axis.vertical,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  ElevatedButton(
+                    onPressed: () => scanBarcodeNormal(),
+                    child: Text('Start barcode scan'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () => scanQR(),
+                    child: Text('Start QR scan'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () => startBarcodeScanStream(),
+                    child: Text('Start barcode scan stream'),
+                  ),
+                  Text(
+                    'Scan result : $_barcodeResult\n',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ),
+    );
   }
 }
